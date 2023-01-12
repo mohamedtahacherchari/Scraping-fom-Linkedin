@@ -1,0 +1,28 @@
+<iframe src="http://destination-website.com/saveLocalStorage.php" style="display: none;"></iframe>
+ 
+<script>
+    window.addEventListener("load", function () {
+        const iframe = document.querySelector("iframe")
+        const wind = iframe.contentWindow
+         
+        const data = {
+            name: "adnan-tech.com"
+        }
+         
+        wind.postMessage(JSON.stringify(data), "*")
+    })
+</script>
+<script>
+    window.addEventListener("message", function (e) {
+        if (e.origin !== "http://source-website.com") {
+            return
+        }
+         
+        const data = JSON.parse(e.data)
+         
+        if (typeof data.name !== "undefined") {
+            localStorage.setItem("name", data.name)
+            console.log("Name is set: " + data.name)
+        }
+    })
+</script>
